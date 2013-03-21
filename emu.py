@@ -17,22 +17,22 @@ pixel_size = 10
 
 class Emulator(pyglet.window.Window):
     keymap = {
-        key.NUM_0: 0,
-        key.NUM_1: 1,
-        key.NUM_2: 2,
-        key.NUM_3: 3,
-        key.NUM_4: 4,
-        key.NUM_5: 5,
-        key.NUM_6: 6,
-        key.NUM_7: 7,
-        key.NUM_8: 8,
-        key.NUM_9: 9,
-        key.NUM_DIVIDE: 0xa,
-        key.NUM_MULTIPLY: 0xb,
-        key.NUM_SUBTRACT: 0xc,
-        key.NUM_ADD: 0xd,
-        key.NUM_ENTER: 0xe,
-        key.NUM_DECIMAL: 0xf,
+        key._0: 0,
+        key._1: 1,
+        key._2: 2,
+        key._3: 3,
+        key._4: 4,
+        key._5: 5,
+        key._6: 6,
+        key._7: 7,
+        key._8: 8,
+        key._9: 9,
+        key.A: 0xa,
+        key.B: 0xb,
+        key.C: 0xc,
+        key.D: 0xd,
+        key.E: 0xe,
+        key.F: 0xf,
     }
     _memory = [0] * 4096   # 4096 bytes(4K) of memory
     _graphic_memory = []
