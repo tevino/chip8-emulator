@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# import sys
 import re
 import sys
 import time
@@ -10,6 +9,7 @@ from random import randint
 from threading import Thread
 from pyglet.gl import glRectf
 from pyglet.window import key
+from pyglet import clock
 
 cycles_per_second = 60 * 2
 pixel_size = 10
@@ -360,7 +360,10 @@ class Emulator(pyglet.window.Window):
         return lambda: None
 
     def _fetch_next_opcode(self):
-        high, low = self._memory[self._program_counter:self._program_counter + 2]
+        high, low = self._memory[
+            self._program_counter:
+            self._program_counter + 2
+        ]
         self._program_counter += 2
         return (high << 8) | low
 
@@ -397,13 +400,13 @@ class Emulator(pyglet.window.Window):
             self._keypad[key] = 0
 
     def on_draw(self, *args):
-        if self._screen_changed:
-            self.clear()
-            for x, row in enumerate(self._graphic_memory):
-                for y, pt in enumerate(row):
-                    if pt:
-                        self.draw_pixel(x, y)
-            self._screen_changed = False
+        # if self._screen_changed:
+        self.clear()
+        for x, row in enumerate(self._graphic_memory):
+            for y, pt in enumerate(row):
+                if pt:
+                    self.draw_pixel(x, y)
+            # self._screen_changed = False
 
     def draw_pixel(self, x, y):
         x_scaled = (x + 1) * pixel_size
@@ -425,14 +428,18 @@ class Emulator(pyglet.window.Window):
         td = Thread(target=run)
         td.daemon = True
         td.start()
+        clock.schedule(self.on_draw)
+        pyglet.app.run()
 
 
 def main():
     if len(sys.argv) > 1:
-        emu = Emulator(64 * pixel_size, 32 * pixel_size, caption='Chip-8 Emulator')
+        emu = Emulator(
+            64 * pixel_size, 32 * pixel_size,
+            caption='Chip-8 Emulator'
+        )
         emu.load(sys.argv[1])
         emu.start()
-        pyglet.app.run()
     else:
         print 'emu.py [ROM]'
 
