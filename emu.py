@@ -66,7 +66,7 @@ class Emulator(pyglet.window.Window):
     _screen_changed = False
 
     def __init__(self, *args, **kwargs):
-        super(Emulator, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.init_opcodes()
         self._program_counter = 0x200
         self._memory[0:len(self.fontset)] = self.fontset
@@ -335,7 +335,7 @@ class Emulator(pyglet.window.Window):
             # self._address_i += size
 
         self.op_regex = []
-        for func_name, func in locals().iteritems():
+        for func_name, func in locals().items():
             if func_name.startswith('op_'):
                 r = func_name[3:]
                 # address
@@ -386,8 +386,8 @@ class Emulator(pyglet.window.Window):
 
     def load(self, filename):
         with open(filename, 'rb') as fl:
-            bin = fl.read()
-        self._memory[0x200:0x200 + len(bin)] = map(ord, bin)
+            binary = fl.read()
+            self._memory[0x200:0x200 + len(binary)] = binary
 
     def on_key_press(self, symbol, modifiers):
         key = self.keymap.get(symbol)
@@ -441,7 +441,7 @@ def main():
         emu.load(sys.argv[1])
         emu.start()
     else:
-        print 'emu.py [ROM]'
+        print('emu.py [ROM]')
 
 
 if __name__ == '__main__':
